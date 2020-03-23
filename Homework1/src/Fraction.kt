@@ -1,7 +1,5 @@
-class Fraction() {
+class Fraction(private var numerator: Int, private var denomerator: Int) {
 
-    var numerator:Int=16
-    var denomerator:Int=10
     override fun toString(): String {
         val number = "${numerator} / ${denomerator}"
         return number.toString()
@@ -18,14 +16,14 @@ class Fraction() {
         return ("${numerator} / ${denomerator}")
     }
 
-    fun Multiplication(x: Int, y: Int) : Fraction{
-        var numb1 = numerator*x;
-        var numb2 = denomerator*y;
-        var result = numb1/numb2
-        return Fraction()
+    fun Multiplication(fraction: Fraction) : Fraction{
+        val numb1 = this.numerator * fraction.numerator
+        val numb2 = this.denomerator * fraction.denomerator
+        return Fraction(numb1,numb2)
     }
 }
 fun main(){
-    print(Fraction().Multiplication(5,6))
-    print(Fraction().ReduceFraction())
+    val frac1 = Fraction(8,10)
+    val frac2 = Fraction(2,5)
+    print((frac1).Multiplication(frac2))
 }
