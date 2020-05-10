@@ -2,7 +2,6 @@ package ge.msda.myapplication
 
 import android.R
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,23 +10,45 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ge.msda.myapplication.MainActivity.MyPagerAdapter
 import ge.msda.myapplication.fragments.CallFragment
 import ge.msda.myapplication.fragments.DashboardFragment
 import ge.msda.myapplication.fragments.HomeFragment
 import ge.msda.myapplication.fragments.NotificationFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    var adapterViewPager: FragmentPagerAdapter? = null
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                main_view_pager.currentItem = 0
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_dashboard -> {
+                main_view_pager.currentItem = 1
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_notification -> {
+                main_view_pager.currentItem = 2
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_call -> {
+                main_view_pager.currentItem = 3
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val vpPager = findViewById<View>(R.id.vpPager) as ViewPager
-        adapterViewPager = MyPagerAdapter(supportFragmentManager)
-        vpPager.adapter = this.adapterViewPager
+
+        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        main_view_pager.adapter = viewPagerAdapter
+        main_bottom_navigation_view.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

@@ -40,20 +40,25 @@
         </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpPager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="DuplicateIds,MissingConstraints">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-        <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/pager_header"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/main_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" />
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/bottom_navigation_menu" />
 
-    </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
