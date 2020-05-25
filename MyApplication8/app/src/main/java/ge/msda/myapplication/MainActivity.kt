@@ -1,48 +1,64 @@
 package ge.msda.myapplication
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    val arr = ArrayList<Item>()
-    lateinit var adapter: Adapter
+
+    private val newWordActivityRequestCode = 1
+    private lateinit var wordViewModel: WordViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPreferences = getSharedPreferences("Diary", Context.MODE_PRIVATE)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val adapter = WordListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        for (i in sharedPreferences.all)
-        {
-            arr.add(Item(i.value.toString()))
-        }
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
 
-        adapter = Adapter(this, arr)
-        recyclerview.adapter = adapter
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        wordViewModel.allWords.observe(this, Observer { words ->
+            // Update the cached copy of the words in the adapter.
+            words?.let { adapter.setWords(it) }
+        })
 
-        addBtn.setOnClickListener {
-            if (!inputText.text.isNullOrEmpty())
-            {
-                add(inputText.text.toString())
-            }
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(this@MainActivity, NewWordActivity::class.java)
+            startActivityForResult(intent, newWordActivityRequestCode)
         }
     }
 
-    private fun add(text : String)
-    {
-        val prefs = getSharedPreferences("Diary", Context.MODE_PRIVATE)
-        val editor = prefs.edit()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
 
-        val index = prefs.all.size + 1
-
-        editor.putString(index.toString(), text)
-        editor.apply()
-
-        arr.add(Item(prefs.getString(index.toString(), " ")!!))
-        adapter.notifyDataSetChanged()
+        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val word = Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY))
+                wordViewModel.insert(word)
+                Unit
+            }
+        } else {
+            Toast.makeText(
+                applicationContext,
+                R.string.empty_not_saved,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
