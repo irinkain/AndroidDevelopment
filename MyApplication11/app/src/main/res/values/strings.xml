@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="irina">Irina</string>
+    <string name="Third_fragment">third_fragment</string>
+    <string name="tab_c_label" />
+    <string name="tab_a_label" />
+    <string name="tab_b_label" />
+</resources>
