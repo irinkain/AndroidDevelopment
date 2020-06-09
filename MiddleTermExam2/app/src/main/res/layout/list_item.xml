@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="#EAEAEA" android:layout_margin="10dp" android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/steps"
+        android:text="ნაბიჯები: -1"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_margin="5dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/water"
+        android:text="წყალი: -1"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/sleep"
+        android:text="ძილი: -1"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="18sp"/>
+</LinearLayout>

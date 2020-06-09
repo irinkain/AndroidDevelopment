@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/dailyActivity"
+        android:title="დღიური აქტივობა"
+        android:icon="@drawable/ic_activity" />
+    <item android:id="@+id/dailyStats"
+        android:title="სტატისტიკა"
+        android:icon="@drawable/ic_statistics" />
+    <item android:id="@+id/info"
+        android:title="ინფორმაცია"
+        android:icon="@drawable/ic_data" />
+</menu>
